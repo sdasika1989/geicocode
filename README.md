@@ -151,4 +151,106 @@ public class geicologin {
 
 }
 
+Reading Excel Code:
+
+package geico;
+
+
+import java.io.*;
+import org.apache.poi.xssf.usermodel.*;
+
+
+public class OpenExcel 
+{
+
+       private static XSSFSheet ExcelWSheet;
+    
+    private static XSSFWorkbook ExcelWBook;
+
+    private static XSSFCell Cell;
+
+    private static XSSFRow Row;
+    
+    public static void setExcelFile(String Path,String SheetName) throws Exception {
+           
+                  try {
+
+                  // Open the Excel file
+
+                  FileInputStream ExcelFile = new FileInputStream(Path);
+
+                  // Access the required test data sheet
+
+                  ExcelWBook = new XSSFWorkbook(ExcelFile);
+
+                  ExcelWSheet = ExcelWBook.getSheet(SheetName);
+
+                  } catch (Exception e){
+
+                        throw (e);
+
+                  }
+
+    }
+    public static String getCellData(int RowNum, int ColNum) throws Exception{
+           
+                  try{
+
+                  Cell = ExcelWSheet.getRow(RowNum).getCell(ColNum);
+
+                  String CellData = Cell.getStringCellValue();
+
+                  return CellData;
+
+                  }catch (Exception e){
+
+                        return"";
+
+                  }
+
+}
+
+    
+    public static void setCellData(String Result,  int RowNum, int ColNum) throws Exception  {
+           
+                  try{
+
+                  Row  = ExcelWSheet.getRow(RowNum);
+
+                  Cell = Row.getCell(ColNum);
+                  
+
+                  if (Cell == null) {
+
+                        Cell = Row.createCell(ColNum);
+
+                        Cell.setCellValue(Result);
+
+                        } else {
+
+                               Cell.setCellValue(Result);
+
+                        }
+
+// Constant variables Test Data path and Test Data file name
+
+                  //"D://ToolsQA//OnlineStore//src//testData//"
+                        FileOutputStream fileOut = new FileOutputStream("D://Selenium//erw.xlsx");
+
+                        ExcelWBook.write(fileOut);
+
+                        fileOut.flush();
+
+                               fileOut.close();
+
+                        }catch(Exception e){
+
+                               throw (e);
+
+                  }
+
+           }
+
+}
+
 
